@@ -1,0 +1,46 @@
+.webuploader-container {
+	position: relative;
+}
+.webuploader-element-invisible {
+	position: absolute !important;
+	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px,1px,1px,1px);
+}
+.webuploader-pick,.btn {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	background: #00b7ee;
+	padding: 10px 15px;
+	color: #fff;
+	text-align: center;
+	border: none;
+	font-size: 14px;
+	border-radius: 3px;
+	overflow: hidden;
+}
+.webuploader-pick-hover,.btn:hover {
+	background: #00a2d4;
+}
+
+.webuploader-pick-disable.btn:disable {
+	opacity: 0.6;
+	pointer-events:none;
+}
+
+.file-item{
+}
+.btn-delete{
+	border:1px solid #aaa;
+	cursor: pointer;
+}
+.progress{
+	border:1px solid #000;
+	height:18px;
+	width:500px;
+}
+.progress p{
+	background:#f00;
+	height:100%;
+	margin:0;
+}

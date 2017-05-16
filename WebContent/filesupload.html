@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8"/>
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<head>
+	<title>多文件上传</title>
+	<link rel="stylesheet" type="text/css" href="js/webuploader/webuploader.css"/>
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="js/webuploader/webuploader.js"></script>
+</head>
+<body>
+	<div id="uploader-demo">
+		<!--用来存放文件信息的容器-->
+		<div id="thelist" class="uploader-list"></div>
+		<div>
+			<div id="filePicker">选择文件</div>
+			<!--input type="file" multiple/-->
+			<button id="ctlBtn" class="btn btn-default">开始上传</button>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			//初始化WebUploader
+			var $list = $("#thelist");
+			var $btn = $("#ctlBtn");
+			var thumbnailWidth = 100;//缩略图宽高，当宽高为0~1时，是按百分比计算的，具体可以看api文档
+			var thumbnailHeigh = 100;
+
+			var uploader = WebUploader.create({
+				//选完文件后，是否自动上传
+				auto:false,
+				//swf文件路径
+				swf:'js/webuploader/Uploader.swf',
+				//文件接收服务器
+				server:'/FilesUpload/FileUploadAction',
+				//选择文件的按钮，可选
+				//内部根据当前运行时创建，可能是input元素也可能是flash
+				pick:'#filePicker',
+				//只允许选择图片文件
+				/*accept:{
+					title:'Images',
+					extensions:'gif,jpg,jpeg,bmp,png',
+					mimeTypes:'image/*'
+				},*/
+				method:'POST',
+			});
+			//当有文件添加进来时
+			uploader.on('fileQueued',function(file){
+				var $li = $(  
+               	'<div id="' + file.id + '" class="file-item thumbnail">' +  
+                   '<div class="info">' + 
+                   file.name + 
+                   '<button data-fileid="' + file.id + '" class="btn-delete" >delete</button>' +
+                   '</div>' +  
+               	'</div>'  
+               	);
+           		$list.append($li);
+           		$(".btn-delete").on('click',function(){
+           			var fileId = $(this).attr("data-fileid");
+           			uploader.removeFile(fileId,true);
+           			//alert(uploader.getFiles('cancelled').length);
+           			$('#'+fileId).empty();
+           		});
+			});
+			//文件上传过程中创建进度条实时显示
+			uploader.on('uploadProgress',function(file,percentage){
+				var $li = $('#'+file.id),
+					$percent = $li.find('.progress p');
+				//避免重复创建
+				if(!$percent.length){
+					$percent = $('<div class="progress"><p></p></div>')
+								.appendTo($li)
+								.find('p');
+				}
+				$percent.css('width',percentage*100+'%');
+				$percent.text(parseInt(percentage*10000)/100+'%');
+			});
+			//文件上传成功，给item添加成功class，用样式标记上传成功
+			uploader.on('uploadSuccess',function(file){
+				$('#'+file.id).addClass('upload-state-done');
+			});
+			//文件上传失败，显示上次出错
+			uploader.on('uploadError',function(file){
+				var $li = $('#'+file.id),
+					$error = $li.find('div.error');
+				//避免重复创建
+				if(!$error.length){
+					$error = $('<div class="error"></div>').appendTo($li);
+				}
+				$error.text('上传失败');
+			});
+			//完成上传完了，成功或者失败，先删除进度条
+			uploader.on('uploadComplete',function(file){
+				$("#"+file.id).find('.progress').remove();
+			});
+			//给"开始上传"按钮添加点击事件
+			$btn.on('click',function(){
+				var fileList = uploader.getFiles('inited');
+				//alert(fileList.length);
+				if(fileList.length){
+					console.log("上传...");
+					uploader.upload();
+					console.log("上传成功");
+				}else{
+					alert("不能为空");
+				}
+			});
+		});
+	</script>
+</body>
+</html>
