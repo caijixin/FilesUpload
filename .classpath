@@ -8,9 +8,9 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Users/java/FilesUpload/WebContent/WEB-INF/lib/commons-fileupload-1.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/java/FilesUpload/WebContent/WEB-INF/lib/commons-io-2.5.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/tomcat-coyote.jar"/>
+	<classpathentry kind="lib" path="D:/project/FilesUpload/WebContent/WEB-INF/lib/commons-fileupload-1.2.1.jar"/>
+	<classpathentry kind="lib" path="D:/project/FilesUpload/WebContent/WEB-INF/lib/commons-io-2.5.jar"/>
+	<classpathentry kind="lib" path="D:/project/Tomcat 8.0/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="D:/project/Tomcat 8.0/lib/tomcat-coyote.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

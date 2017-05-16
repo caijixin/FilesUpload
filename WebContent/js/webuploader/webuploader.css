@@ -1,3 +1,7 @@
+.uploader-list{
+	clear: both;
+}
+
 .webuploader-container {
 	position: relative;
 }
@@ -18,6 +22,8 @@
 	font-size: 14px;
 	border-radius: 3px;
 	overflow: hidden;
+	float: left;
+	margin:5px;
 }
 .webuploader-pick-hover,.btn:hover {
 	background: #00a2d4;
@@ -29,18 +35,61 @@
 }
 
 .file-item{
+	width: 300px;
+	height: 50px;
+	border: 1px solid #bbb;
+	border-radius: 3px;
+	margin: 5px;
+}
+.file-info{
+ 	position: relative;
+}
+.file-info span{
+ 	vertical-align:middle;
+}
+.file-name{
+	/*控制超出省略*/
+	max-width:120px;
+	display: inline-block;
+ 	white-space:nowrap;
+ 	text-overflow:ellipsis;
+ 	-o-text-overflow:ellipsis;
+ 	overflow: hidden;
+
+ 	margin-left: 10px;
+ }
+.file-size{
+}
+.file-percentage{
+}
+.upload-success{
+	margin-left: 10px;
+	color: green;
+}
+.upload-error{
+	margin-left: 10px;
+	color: red;
 }
 .btn-delete{
-	border:1px solid #aaa;
+	border: none;
+	background: #f00;
+	color:#fff;
 	cursor: pointer;
+	position: absolute;
+	right: 0;
+	margin: 3px;
+}
+.btn-delete:hover{
+	background: #b00;
 }
 .progress{
-	border:1px solid #000;
-	height:18px;
-	width:500px;
+	border:1px solid #bbb;
+	height:5px;
+	width:280px;
+	margin:10px;
 }
 .progress p{
-	background:#f00;
+	background:#00a2d4;
 	height:100%;
 	margin:0;
 }

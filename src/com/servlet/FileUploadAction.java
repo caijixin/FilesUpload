@@ -114,6 +114,6 @@ public class FileUploadAction extends HttpServlet {
 				out.close();
 			}
 		}
-		response.getWriter().write("{\"code\":\"200\",\"filename\":"+fileName+"}");
+		response.getWriter().write("{\"code\":\"200\",\"filename\":\""+fileName+"\"}");
 	}
 }

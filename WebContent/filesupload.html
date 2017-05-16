@@ -11,11 +11,21 @@
 <body>
 	<div id="uploader-demo">
 		<!--用来存放文件信息的容器-->
-		<div id="thelist" class="uploader-list"></div>
-		<div>
+		<div id="uploader-btn">
 			<div id="filePicker">选择文件</div>
 			<!--input type="file" multiple/-->
 			<button id="ctlBtn" class="btn btn-default">开始上传</button>
+		</div>
+		<div id="thelist" class="uploader-list">
+			<!--div id="file-id" class="file-item thumbnail">
+			        <div class="file-info">
+                    	<span class="file-name">filename.type</span>
+                    	<span class="file-size">(10.0kb)</span>
+                    	<span class="file-percentage">-15%</span>
+                    	<button data-fileid="file-id" class="btn-delete" >X</button>
+                    </div>
+                    <div class="progress"><p style="width:15%;"></p></div>
+            </div--> 
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -47,51 +57,71 @@
 			//当有文件添加进来时
 			uploader.on('fileQueued',function(file){
 				var $li = $(  
-               	'<div id="' + file.id + '" class="file-item thumbnail">' +  
-                   '<div class="info">' + 
-                   file.name + 
-                   '<button data-fileid="' + file.id + '" class="btn-delete" >delete</button>' +
-                   '</div>' +  
-               	'</div>'  
+               	'<div id="'+file.id+'" class="file-item thumbnail">' + 
+			        '<div class="file-info">' + 
+                    	'<span class="file-name">'+file.name+'</span>' + 
+                    	'<span class="file-size">(' + 
+                    	((file.size/1000)<1000?(parseInt(file.size/1000)+'KB'):(parseInt(file.size/1000000)+'MB')) + 
+                    	')</span>' + 
+                    	'<span class="file-percentage"></span>' + 
+                    	'<button data-fileid="' + file.id + '" class="btn-delete" >X</button>' + 
+                    '</div>' + 
+                    '<div class="progress"><p style="width:0%;"></p></div>' + 
+            	'</div> '
                	);
            		$list.append($li);
            		$(".btn-delete").on('click',function(){
            			var fileId = $(this).attr("data-fileid");
            			uploader.removeFile(fileId,true);
            			//alert(uploader.getFiles('cancelled').length);
-           			$('#'+fileId).empty();
+           			$('#'+fileId).remove();
            		});
 			});
 			//文件上传过程中创建进度条实时显示
 			uploader.on('uploadProgress',function(file,percentage){
 				var $li = $('#'+file.id),
-					$percent = $li.find('.progress p');
-				//避免重复创建
+					$percent = $li.find('.progress p'),
+					$percentage = $li.find('.file-percentage');
+				/*//避免重复创建
 				if(!$percent.length){
 					$percent = $('<div class="progress"><p></p></div>')
 								.appendTo($li)
 								.find('p');
-				}
+				}*/
 				$percent.css('width',percentage*100+'%');
-				$percent.text(parseInt(percentage*10000)/100+'%');
+				if(percentage<1){
+					$percentage.text('-'+parseInt(percentage*1000)/10+'%');
+				}else{
+					$percentage.text('-正在处理...');
+				}
+				$("#"+file.id).find('.btn-delete').css("display","none");
 			});
 			//文件上传成功，给item添加成功class，用样式标记上传成功
 			uploader.on('uploadSuccess',function(file){
-				$('#'+file.id).addClass('upload-state-done');
+				//$('#'+file.id).addClass('upload-state-done');
+				var $li = $('#'+file.id),
+					$error = $li.find('div.upload-success');
+				//避免重复创建
+				if(!$error.length){
+					$error = $('<div class="upload-success"></div>').appendTo($li);
+				}
+				$error.text('上传成功');
 			});
 			//文件上传失败，显示上次出错
 			uploader.on('uploadError',function(file){
 				var $li = $('#'+file.id),
-					$error = $li.find('div.error');
+					$error = $li.find('div.upload-error');
 				//避免重复创建
 				if(!$error.length){
-					$error = $('<div class="error"></div>').appendTo($li);
+					$error = $('<div class="upload-error"></div>').appendTo($li);
 				}
 				$error.text('上传失败');
 			});
 			//完成上传完了，成功或者失败，先删除进度条
 			uploader.on('uploadComplete',function(file){
 				$("#"+file.id).find('.progress').remove();
+				$("#"+file.id).find('.file-percentage').remove();
+				$("#"+file.id).find('.btn-delete').css("display","inline");
 			});
 			//给"开始上传"按钮添加点击事件
 			$btn.on('click',function(){
