@@ -67,7 +67,9 @@ public class FileUploadAction extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("**-- Servlet doPost-->doPost()");
-		request.setCharacterEncoding("UTF-8");
+		//将字符集设置，放在方法体首位
+        response.setCharacterEncoding("UTF-8"); 
+        request.setCharacterEncoding("UTF-8");
 		//判断是否上传文件
 		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 		System.out.println("isMultipart:"+isMultipart);

@@ -28,6 +28,7 @@
             </div--> 
 		</div>
 	</div>
+	<div class="file-list"></div>
 	<script type="text/javascript">
 		$(function(){
 			//初始化WebUploader
@@ -106,6 +107,7 @@
 					$error = $('<div class="upload-success"></div>').appendTo($li);
 				}
 				$error.text('上传成功');
+				getFileList();
 			});
 			//文件上传失败，显示上次出错
 			uploader.on('uploadError',function(file){
@@ -135,7 +137,34 @@
 					alert("不能为空");
 				}
 			});
+			getFileList();
 		});
+		var getFileList = function(){
+			$(".file-list").empty();
+			$.ajax({
+				url:"/FilesUpload/getFileListAction",
+				type:"post",
+				success:function(json){
+					var fileJson = JSON.parse(json);
+					var len = fileJson.files.length;
+					var fileList="";
+					for(var i=0;i<len;i++){
+						fileList+="<form action=\"/FilesUpload/FileDownloadAction\"m method=\"get\">"+
+										"<span>"+fileJson.files[i].filename+"</span>"+
+										"<input type=\"hidden\" name=\"filename\" value=\""+fileJson.files[i].filename+"\">"+
+										"<input type=\"submit\" value=\"下载\">"+
+									"</form>";
+					}
+					$(".file-list").append(fileList);
+				},
+			});
+		}
+		var downloadFile = function(){
+			var param = {
+				filename:$(this).text(),
+			};
+			$.get("/FilesUpload/FileDownloadAction",param,function(){});
+		};
 	</script>
 </body>
 </html>

@@ -93,3 +93,26 @@
 	height:100%;
 	margin:0;
 }
+#uploader-demo{
+	width:500px;
+	float:left;
+}
+.file-list{
+	float:left;
+	border-left:1px solid #ddd;
+	padding-left:10px;
+}
+.file-list form{
+	border:1px solid #ddd;
+	padding-left:10px;
+}
+.file-list input{
+	border: none;
+	background: #00b7ee;
+	color:#fff;
+	cursor: pointer;
+	margin: 3px;
+}
+.file-list input:hover{
+	background: #00a2d4;
+}
