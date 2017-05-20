@@ -108,11 +108,20 @@
 }
 .file-list input{
 	border: none;
-	background: #00b7ee;
-	color:#fff;
+	color: #fff;
 	cursor: pointer;
-	margin: 3px;
+	display:inner-block;
+	height:100%;
 }
-.file-list input:hover{
+.file-list .download{
+	background: #00b7ee;
+}
+.file-list .delete{
+	background: #ff0000;
+}
+.file-list .download:hover{
 	background: #00a2d4;
+}
+.file-list .delete:hover{
+	background: #b00;
 }

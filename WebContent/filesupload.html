@@ -149,10 +149,11 @@
 					var len = fileJson.files.length;
 					var fileList="";
 					for(var i=0;i<len;i++){
-						fileList+="<form action=\"/FilesUpload/FileDownloadAction\"m method=\"get\">"+
+						fileList+="<form action=\"/FilesUpload/FileDownloadAction\" method=\"get\">"+
 										"<span>"+fileJson.files[i].filename+"</span>"+
 										"<input type=\"hidden\" name=\"filename\" value=\""+fileJson.files[i].filename+"\">"+
-										"<input type=\"submit\" value=\"下载\">"+
+										"<input class=\"download\" type=\"submit\" value=\"下载\">"+
+										"<input class=\"delete\" type=\"button\" value=\"删除\" data-filename=\""+fileJson.files[i].filename+"\" onclick=\"deleteFile(event)\">"+
 									"</form>";
 					}
 					$(".file-list").append(fileList);
@@ -163,8 +164,20 @@
 			var param = {
 				filename:$(this).text(),
 			};
-			$.get("/FilesUpload/FileDownloadAction",param,function(){});
+			$.get("/FilesUpload/FileDownloadAction",param);
 		};
+		var deleteFile = function(e){
+			var file = $(e.target).data("filename")
+			if(confirm("确定要删除 "+file+" 吗？")){
+				var param = {
+						filename:file
+				};
+				$.get("/FilesUpload/deleteFileAction",param,function(json){
+					var resultJson = JSON.parse(json);
+					if(resultJson.result==="success")getFileList();
+				});
+			}
+		}
 	</script>
 </body>
 </html>
